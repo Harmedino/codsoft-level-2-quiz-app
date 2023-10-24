@@ -182,21 +182,27 @@ async function registerUser(firstname, lastname, username, email, password) {
 
 async function isUsernameUnique(username) {
   try {
-    const querySnapshot = await getDocs(colRef);
+      const result = await getDocs(colRef);
+      const checkForUsername = [];
+      
+      result.forEach((user) => {
+          const id = user.id;
+          checkForUsername.push({ id, ...user.data() });
+      });
 
-    for (const userDoc of querySnapshot.docs) {
-      const userData = userDoc.data();
-      if (userData.username === username) {
-        // Username exists, so return false
-        return false;
+      const exists = checkForUsername.find(usernameToCheck => username === usernameToCheck.username);
+
+      if (exists) {
+          // The username exists in the array
+          return false;
+      } else {
+          // The username doesn't exist in the array
+          return true;
       }
-    }
-
-    // Username is unique, so return true
-    return true;
   } catch (error) {
-    console.error(error);
-    // Handle any potential errors
-    return false;
+      // Handle any errors that may occur during the asynchronous operations
+      console.error(error);
+      return false; // Return false in case of an error
   }
 }
+
