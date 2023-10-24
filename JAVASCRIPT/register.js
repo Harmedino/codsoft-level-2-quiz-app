@@ -1,8 +1,27 @@
 
-
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc,
+    setDoc,
+    getDoc,
+    updateDoc,
+    arrayUnion,
+    arrayRemove,
+  } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,4 +39,129 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+const analytics = getAnalytics(app);
+const auth = getAuth()
+const db = getFirestore();
+
+  const form = document.getElementById('getData');
+  const passwordInput = form.querySelector('input[name="password"]');
+  const confirmPasswordInput = form.querySelector('input[name="confirmPassword"]');
+  const passwordError = document.getElementById('passwordError');
+const confirmPasswordError = document.getElementById('confirmPasswordError');
+const emailInput = form.querySelector('input[name="email"]');
+  
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const name = form.name.value;
+    const username = form.username.value;
+    const email = form.email.value;
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    // Validate that name and username are not empty
+    if (name.trim() === '' || username.trim() === '') {
+        // Handle the case where name or username is empty
+        //error message and style
+        nameInput.classList.add('invalid-input');
+        usernameInput.classList.add('invalid-input');
+        nameError.textContent = 'Name and username are required';
+        usernameError.textContent = 'Name and username are required';
+        return; // Prevent further execution
+    } else {
+        // Clear any previous validation errors
+        nameInput.classList.remove('invalid-input');
+        usernameInput.classList.remove('invalid-input');
+        nameError.textContent = '';
+        usernameError.textContent = '';
+    }
+
+    if (password !== confirmPassword) {
+        passwordInput.classList.add('invalid-input');
+        confirmPasswordInput.classList.add('invalid-input');
+        passwordError.textContent = 'Passwords do not match';
+        confirmPasswordError.textContent = 'Passwords do not match';
+    } else {
+        passwordInput.classList.remove('invalid-input');
+        confirmPasswordInput.classList.remove('invalid-input');
+        passwordError.textContent = '';
+        confirmPasswordError.textContent = '';
+
+        // Disable the submit button and display "Registering..."
+        submitButton.disabled = true;
+        submitButton.textContent = 'Registering...';
+
+        try {
+            // Check for unique username here (you need to implement this)
+            if (await isUsernameUnique(username)) {
+                await registerUser(name, username, email, password);
+            } else {
+                usernameInput.classList.add('invalid-input');
+                usernameError.textContent = 'Username is not unique';
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            // Re-enable the submit button
+            submitButton.disabled = false;
+            submitButton.textContent = 'Sign Up';
+        }
+    }
+});
+
+
+  async function registerUser(name,username, email, password) {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        if (user) {
+            const userRef = await setDoc(
+                doc(db, "users", user.uid),
+                {
+                    fullName: name,
+                    username: username,
+                    email: email,
+                },
+                { merge: true }
+            );
+
+        }
+    } catch (error) {
+       
+        if (error.code && error.message) {
+            switch (error.code) {
+                case 'auth/invalid-email':
+                    emailInput.classList.add('invalid-input');
+                    document.getElementById('emailError').textContent = error.message;
+                    break;
+                case 'auth/user-disabled':
+                    emailInput.classList.add('invalid-input');
+                    document.getElementById('emailError').textContent = error.message;
+                    break;
+                case 'auth/user-not-found':
+                    emailInput.classList.add('invalid-input');
+                    document.getElementById('emailError').textContent = error.message;
+                    break;
+                case 'auth/email-already-in-use':
+                    emailInput.classList.add('invalid-input');
+                    document.getElementById('emailError').textContent = 'Email is already in use.';
+                    break;
+                case 'auth/operation-not-allowed':
+                    emailInput.classList.add('invalid-input');
+                    document.getElementById('emailError').textContent = error.message;
+                    break;
+                case 'auth/weak-password':
+                    passwordInput.classList.add('invalid-input');
+                    document.getElementById('passwordError').textContent = error.message;
+                    break;
+                default:
+                    // Handle other errors or display a generic error message
+                    break;
+            }
+        }
+    }
+}
+
+
+
+  
