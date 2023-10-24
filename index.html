@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CBT Test</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="./bootstrap-5.2.0-beta1-dist/bootstrap-5.2.0-beta1-dist/css/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+
+    <div class="bubbles">
+      <img src="image/bubble-removebg-preview.png" >
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+      <img src="image/bubble-removebg-preview.png">
+  </div>
+
+    <div class="body"  id="starter" >
+      <div class="welcome-body"  id="welcome-body">
+        <div class="welcome"> WELCOME TO </div>
+        <img src="./image/logo 1.png" width="140px" />
+        <p>CBT System</p>
+
+        <button class="btn btn-success" onclick="startQuiz('start')">Start Quiz</button>
+      </div>
+
+      <div class="welcome-body" hidden id="startExam">
+        <div class="start text-center mb-4"
+          ><p>To Start,</p> <p>Enter Your Name:</p></div
+        >
+
+        <div
+          ><img src="./image/ICON.png" />
+          <input type="text" required placeholder="Name" id="input"
+        /></div>
+        <div class="mt-4 d-flex justify-content-around container"
+          ><button class="btn btn-danger" onclick="startQuiz('exist')">EXIT</button>
+          <button class="btn btn-success" onclick="startQuiz('exam')">START</button></div
+        >
+      </div>
+    </div>
+
+    <div class="quest" hidden id="instruction">
+      <div class="quest-body ">
+        <div class="profile text-center">
+          <img src="./image/AVATAR.png" alt="" />
+          <h5 id="userName"></h5>
+          <span>EXAM NO: 1234</span>
+        </div>
+       <div class="position">
+        <div class="instruction ">
+          <h3 class="text-danger">READ THIS INSTRUCTIONS CAREFULLY!</h3>
+          <ol class="list-group p-0 text-left">
+            <li> Do not try to logout until you finish your examination</li>
+            <li> You can only click on finish button if you have finish</li>
+            <li>
+              You will be automatically logged out when your time elapsed</li >
+            <li> You are to attempt all questions and each carries one mark</li>
+            <li> Do not waste your time as time is againt you... Best of
+              luck!!!</li>
+            
+          </ol>
+        </div>
+        <div class="mt-5 d-flex justify-content-around container"
+        ><button class="btn btn-danger" onclick="startQuiz('exist')"> EXIT</button>
+        <button class="btn btn-success"onclick="startQuiz('startExam')" >START</button></div >
+    </div>
+  </div>
+      </div>
+    <div class="quest" hidden id="main-page">
+      <div class="quest-body ">
+        <div class="profile text-center">
+          <img src="./image/AVATAR.png" alt="" />
+          <h5 id="userName2"></h5>
+          <span>EXAM NO: 1234</span>
+        </div>
+       <div class="position">
+        <div class="timer d-flex justify-content-around align-items-center rounded">
+          <div class="time w-50 text-light btn" id="timer">
+             
+          </div>
+          <div class="finish btn text-light w-50" onclick="submit()">SUBMIT</div>
+        </div>
+        <p id="answered"></p>
+
+        <div class="border w-75 question-body ">
+          <div class="pl-2" id="text"> </div>
+          
+        </div>
+
+        <div class="mt-5 d-flex justify-content-around w-50">
+        
+        <button class= " mr-5 btn" onclick="prevQuestion()"> Prev </button>
+        <button class="ml-5 btn" onclick="nextQuestion()">Next>></button>
+      </div >
+       
+        <div>
+
+        </div>
+       
+    </div>
+  </div>
+      </div>
+    <div class="quest"  id="submit" hidden >
+      <div class="quest-body ">
+        <div class="profile text-center">
+          <img src="./image/AVATAR.png" alt="" />
+          <h5 id="userName2"></h5>
+          <span>EXAM NO: 1234</span>
+        </div>
+       <div class="position">
+        <div class="submit p-5 ">
+          <div class="table-responsive">
+            <table class="table table-bordered text-light">
+              <thead>
+                <tr>
+                  <th scope="col">SUBJECT</th>
+                  <th scope="col">NO OF QUESTIONS</th>
+                  <th scope="col">ATTEMPTED</th>
+                  <th scope="col">SCORED</th>
+                </tr>
+              </thead>
+              <tbody id="result" class="text-center">
+          
+                <!-- Your table data goes here -->
+          
+              </tbody>
+            </table>
+          </div>
+          </table>
+        </div>
+       
+    </div>
+  </div>
+      </div>
+    </div>
+
+  
+  
+  </body>
+</html>
+<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
