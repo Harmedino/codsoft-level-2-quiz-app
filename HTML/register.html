@@ -60,24 +60,30 @@
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign Up for an Account</h5>
     
                                         <div class="form-outline mb-3">
-                                            <label class="form-label" for="form2Example17" name="fullname">Full Name</label>
-                                            <input type="text"  name="name" class="form-control form-control-sm p-2" placeholder="john doe" id="nameInput"/>
-                                            <p class="small text-danger" id="nameError"></p>
+                                            <label class="form-label" for="form2Example17" name="firstname">First Name</label>
+                                            <input type="text"  name="firstname" class="form-control form-control-sm p-2" placeholder="john " id="firstnameInput"/>
+                                            <p class="small text-danger" id="firstError"></p>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <label class="form-label" for="form2Example17" name="lastname">Last Name</label>
+                                            <input type="text"  name="lastname" class="form-control form-control-sm p-2" placeholder="doe" id="lastnameInput"/>
+                                            <p class="small text-danger" id="lastError"></p>
                                         </div>
                                         <div class="form-outline mb-3">
                                             <label class="form-label" for="form2Example17">User Name</label>
-                                            <input type="text"  class="form-control form-control-sm p-2" placeholder="johndoe" name="username"/>
+                                            <input type="text"  class="form-control form-control-sm p-2" id='usernameInput'placeholder="johndoe" name="username"/>
+                                            <p class="small text-danger" id="usernameError"></p>
                                         </div>
     
                                         <div class="form-outline mb-3">
                                             <label class="form-label" for="form2Example17">Email Address</label>
-                                            <input type="email"  class="form-control form-control-sm p-2"  name='email'placeholder="example@gmail.com"/>
+                                            <input type="email"  class="form-control form-control-sm p-2"  name='email'placeholder="example@gmail.com" id="emaiInput"/>
                                             <p class="small text-danger" id="emailError"></p>
                                         </div>
                                         <div class="form-outline mb-3">
                                             <label class="form-label" for="form2Example27">Password</label>
                                             <div class="input-container">
-                                                <input type="password" class="form-control form-control-sm p-2" name="password" placeholder="********">
+                                                <input type="password" class="form-control form-control-sm p-2" name="password" placeholder="********" id="passwordInput">
                                                 <div class="error-message" id="passwordError"></div>
                                             </div>
                                             <p class="small text-danger" id="emailError"></p>

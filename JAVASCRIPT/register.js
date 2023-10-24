@@ -42,6 +42,7 @@ import {
 const analytics = getAnalytics(app);
 const auth = getAuth()
 const db = getFirestore();
+const colRef = collection(db, "users");
 
   const form = document.getElementById('getData');
   const passwordInput = form.querySelector('input[name="password"]');
@@ -52,26 +53,35 @@ const emailInput = form.querySelector('input[name="email"]');
   
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const name = form.name.value;
+    const firstname = form.firstname.value;
+    const lastname = form.lastname.value;
     const username = form.username.value;
     const email = form.email.value;
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
     // Validate that name and username are not empty
-    if (name.trim() === '' || username.trim() === '') {
+    if (firstname.trim() === '' || lastname.trim()=== '' || username.trim() === '') {
         // Handle the case where name or username is empty
         //error message and style
-        nameInput.classList.add('invalid-input');
+        firstnameInput.classList.add('invalid-input');
+        lastnameInput.classList.add('invalid-input');
         usernameInput.classList.add('invalid-input');
-        nameError.textContent = 'Name and username are required';
-        usernameError.textContent = 'Name and username are required';
+        emailInput.classList.add('invalid-input');
+        passwordInput.classList.add('invalid-input');
+        firstError.textContent = 'Firstname is required';
+        lastError.textContent = 'Lastname is required';
+        usernameError.textContent = 'username is required';
+        emailError.textContent = 'email is required';
+        passwordError.textContent = 'password is required';
         return; // Prevent further execution
     } else {
         // Clear any previous validation errors
-        nameInput.classList.remove('invalid-input');
+        firstnameInput.classList.remove('invalid-input');
+        lastnameInput.classList.remove('invalid-input');
         usernameInput.classList.remove('invalid-input');
-        nameError.textContent = '';
+        firstError.textContent = '';
+        lastError.textContent = '';
         usernameError.textContent = '';
     }
 
@@ -93,10 +103,10 @@ form.addEventListener('submit', async (event) => {
         try {
             // Check for unique username here (you need to implement this)
             if (await isUsernameUnique(username)) {
-                await registerUser(name, username, email, password);
+                await registerUser(firstname,lastname, username, email, password);
             } else {
                 usernameInput.classList.add('invalid-input');
-                usernameError.textContent = 'Username is not unique';
+                usernameError.textContent = 'Username already exist';
             }
         } catch (error) {
             console.error(error);
@@ -108,8 +118,7 @@ form.addEventListener('submit', async (event) => {
     }
 });
 
-
-  async function registerUser(name,username, email, password) {
+  async function registerUser(firstname,lastname,username, email, password) {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -118,7 +127,8 @@ form.addEventListener('submit', async (event) => {
             const userRef = await setDoc(
                 doc(db, "users", user.uid),
                 {
-                    fullName: name,
+                    firstname: firstname,
+                    lastname: lastname,
                     username: username,
                     email: email,
                 },
@@ -159,6 +169,27 @@ form.addEventListener('submit', async (event) => {
                     break;
             }
         }
+    }
+}
+
+async function isUsernameUnique(username) {
+    try {
+        const querySnapshot = await getDocs(colRef);
+        
+        for (const userDoc of querySnapshot.docs) {
+            const userData = userDoc.data();
+            if (userData.username === username) {
+                // Username exists, so return false
+                return false;
+            }
+        }
+        
+        // Username is unique, so return true
+        return true;
+    } catch (error) {
+        console.error(error);
+        // Handle any potential errors
+        return false;
     }
 }
 
