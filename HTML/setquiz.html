@@ -36,9 +36,33 @@
             margin-top: 20px;
             color: #ECF0F1;
         }
+        .message-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    z-index: 1000;
+    transition: 0.5s;
+}
+
+.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.error {
+    background-color: #f44336;
+    color: white;
+}
+
     </style>
 </head>
 <body>
+    <div id="messageContainer" class="message-container"></div>
+
     <div class="container mt-5">
         <h1 class="mb-4">Quiz Creation</h1>
 
@@ -80,7 +104,7 @@
 
                     <div class="mb-3">
                         <label for="correctOption" class="form-label">Correct Option</label>
-                        <select class="form-select" id="correctOption">
+                        <select class="form-select" id="correctOption" name="answer">
                             <option value="option1">Option 1</option>
                             <option value="option2">Option 2</option>
                             <option value="option3">Option 3</option>
