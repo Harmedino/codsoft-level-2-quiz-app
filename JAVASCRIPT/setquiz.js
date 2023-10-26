@@ -67,7 +67,6 @@ form.addEventListener('submit', async(event) => {
         subject:subject,
         question:question,
     options: [option1, option2, option3, option4],
-    chosenAnswer: "",
     cAnswer: answer,
   }
  
