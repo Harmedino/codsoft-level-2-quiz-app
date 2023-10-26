@@ -7,7 +7,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 import {
     getDoc,
-  } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
+    getFirestore,
+    doc
+  } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,6 +29,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
+const db = getFirestore()
 
 let uid;
 
@@ -35,11 +38,12 @@ function getLoginUser() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             uid = user.uid;
+            console.log(uid)
             const docRef = doc(db, "users", uid);
     
             getDoc(docRef).then((result) => {
                 const usercart = result.data();
-                cart = usercart.cart;
+                console.log(usercart)
             })
 
         }

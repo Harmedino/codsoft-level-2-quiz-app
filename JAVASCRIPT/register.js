@@ -10,6 +10,7 @@ import {
   collection,
   getDocs,
   doc,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -98,8 +99,12 @@ form.addEventListener("submit", async (event) => {
     try {
       // Check for unique username here (you need to implement this)
       if (await isUsernameUnique(username)) {
-        await registerUser(firstname, lastname, username, email, password);
+        
+      const response  =  await registerUser(firstname, lastname, username, email, password);
+      if (response) {
+        
         window.location = "../HTML/login.html";
+      }
       } else {
         usernameInput.classList.add("invalid-input");
         usernameError.textContent = "Username already exist";
@@ -123,7 +128,6 @@ async function registerUser(firstname, lastname, username, email, password) {
       password
     );
     const user = userCredential.user;
-
     if (user) {
       // If the user account is successfully created, add user information to the Firestore database
       const userRef = await setDoc(
@@ -137,6 +141,7 @@ async function registerUser(firstname, lastname, username, email, password) {
         { merge: true }
       );
     }
+    return true
   } catch (error) {
     // Handle Firebase Authentication errors
     if (error.code && error.message) {
@@ -176,6 +181,7 @@ async function registerUser(firstname, lastname, username, email, password) {
           // Handle other Firebase Authentication errors or display a generic error message
           break;
       }
+      return false
     }
   }
 }
