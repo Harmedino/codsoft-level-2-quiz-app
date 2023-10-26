@@ -18,6 +18,11 @@
                 <input type="text" class="form-control" id="quizTitle" placeholder="Enter quiz title">
             </div>
 
+            <div class="mb-3">
+                <label for="quizSubject" class="form-label">Subject</label>
+                <input type="text" class="form-control" id="quizSubject" placeholder="Enter quiz subject">
+            </div>
+
             <!-- Question Section -->
             <div class="question-section mb-4">
                 <h2>Questions</h2>
@@ -41,12 +46,25 @@
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="Option 4">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="correctOption" class="form-label">Correct Option</label>
+                        <select class="form-select" id="correctOption">
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                            <option value="4">Option 4</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <button type="button" class="btn btn-primary" id="addQuestion">Add Question</button>
             <button type="submit" class="btn btn-success">Create Quiz</button>
+            <button type="submit" class="btn btn-secondary">Preview Quiz</button>
         </form>
+
+       
     </div>
 
     <!-- Add Bootstrap JS and Popper.js (Required for Bootstrap) -->
