@@ -52,6 +52,64 @@ getLoginUser();
 
 const form = document.getElementById('formData')
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async(event) => {
     event.preventDefault()
-})
+
+    const subject = form.quizSubject.value
+    const question = form.question.value
+    const option1 = form.option1.value
+    const option2 = form.option2.value
+    const option3 = form.option3.value
+    const option4 = form.option4.value
+    const answer = form.answer.value
+
+    const data = {
+        subject:subject,
+        question:question,
+    options: [option1, option2, option3, option4],
+    chosenAnswer: "",
+    cAnswer: answer,
+  }
+ 
+  try {
+    const response = await fetch('https://quiz-app-197e0-default-rtdb.firebaseio.com/quizQuestions.json', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (response.ok) {
+        showMessage('success', 'Quiz added successfully!');
+    } else {
+        showMessage('error', 'Failed to add quiz.');
+    }
+
+    setTimeout(() => {
+        hideMessage();
+    }, 5000); // Hide message after 5 seconds
+} catch (error) {
+    console.error(error);
+}
+});
+
+
+
+
+function showMessage(type, text) {
+    const message = document.createElement('div');
+    message.className = `message ${type}`;
+    message.textContent = text;
+    
+messageContainer.appendChild(message);
+messageContainer.style.display = 'block';
+}
+
+function hideMessage() {
+    messageContainer.style.display = 'none';
+    // Remove all child elements (messages) from the container
+    while (messageContainer.firstChild) {
+        messageContainer.removeChild(messageContainer.firstChild);
+    }
+}
