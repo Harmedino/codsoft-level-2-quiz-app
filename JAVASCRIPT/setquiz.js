@@ -52,6 +52,6 @@ getLoginUser();
 
 const form = document.getElementById('formData')
 
-form.addEventListener('submit', () => {
-    
+form.addEventListener('submit', (event) => {
+    event.preventDefault()
 })
