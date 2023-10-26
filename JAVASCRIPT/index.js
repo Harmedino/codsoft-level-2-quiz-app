@@ -37,13 +37,12 @@ function getLoginUser() {
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            uid = user.uid;
-            console.log(uid)
+            uid = user.uid
             const docRef = doc(db, "users", uid);
     
             getDoc(docRef).then((result) => {
                 const usercart = result.data();
-                console.log(usercart)
+                welcome.textContent += usercart.username
             })
 
         }
