@@ -1,0 +1,48 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js";
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import {
+    getDoc,
+  } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
+
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBYqhdVwi2yDV0DmP1iZTBtDmiXcvVA1iQ",
+  authDomain: "quiz-app-197e0.firebaseapp.com",
+  projectId: "quiz-app-197e0",
+  storageBucket: "quiz-app-197e0.appspot.com",
+  messagingSenderId: "246587546388",
+  appId: "1:246587546388:web:0d5a3e0d6fd6d9c1580001",
+  measurementId: "G-JDWQ596NBY",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth();
+
+let uid;
+
+function getLoginUser() {
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            uid = user.uid;
+            const docRef = doc(db, "users", uid);
+    
+            getDoc(docRef).then((result) => {
+                const usercart = result.data();
+                cart = usercart.cart;
+            })
+
+        }
+    })
+}
+getLoginUser();
