@@ -32,6 +32,7 @@ const auth = getAuth();
 const db = getFirestore()
 
 let uid;
+let usercart 
 
 function getLoginUser() {
 
@@ -41,7 +42,7 @@ function getLoginUser() {
             const docRef = doc(db, "users", uid);
     
             getDoc(docRef).then((result) => {
-                const usercart = result.data();
+                usercart   = result.data();
                 welcome.textContent += usercart.username
             })
 
@@ -50,48 +51,59 @@ function getLoginUser() {
 }
 getLoginUser();
 
-const form = document.getElementById('formData')
 
-form.addEventListener('submit', async(event) => {
-    event.preventDefault()
+const form = document.getElementById('formData');
+const addQuestionButton = document.getElementById('addQuestion');
 
-    const subject = form.quizSubject.value
-    const question = form.question.value
-    const option1 = form.option1.value
-    const option2 = form.option2.value
-    const option3 = form.option3.value
-    const option4 = form.option4.value
-    const answer = form.answer.value
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Disable the "Add Question" button
+    addQuestionButton.disabled = true;
+
+    const subject = form.quizSubject.value;
+    const question = form.question.value;
+    const option1 = form.option1.value;
+    const option2 = form.option2.value;
+    const option3 = form.option3.value;
+    const option4 = form.option4.value;
+    const answer = form.answer.value;
 
     const data = {
-        subject:subject,
-        question:question,
-    options: [option1, option2, option3, option4],
-    cAnswer: answer,
-  }
- 
-  try {
-    const response = await fetch('https://quiz-app-197e0-default-rtdb.firebaseio.com/quizQuestions.json', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+        subject: subject,
+        question: question,
+        options: [option1, option2, option3, option4],
+        cAnswer: answer,
+        createdBy : usercart.username
+    };
 
-    if (response.ok) {
-        showMessage('success', 'Quiz added successfully!');
-    } else {
-        showMessage('error', 'Failed to add quiz.');
+    try {
+        const response = await fetch('https://quiz-app-197e0-default-rtdb.firebaseio.com/quizQuestions.json', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            showMessage('success', 'Quiz added successfully!');
+        } else {
+            showMessage('error', 'Failed to add quiz.');
+        }
+
+        setTimeout(() => {
+            hideMessage();
+            // Re-enable the "Add Question" button
+            addQuestionButton.disabled = false;
+        }, 5000); // Hide message after 5 seconds
+    } catch (error) {
+        console.error(error);
+        // Re-enable the "Add Question" button in case of an error
+        addQuestionButton.disabled = false;
     }
-
-    setTimeout(() => {
-        hideMessage();
-    }, 5000); // Hide message after 5 seconds
-} catch (error) {
-    console.error(error);
-}
 });
+
 
 
 
