@@ -40,17 +40,39 @@
       <img src="image/bubble-removebg-preview.png">
       <img src="image/bubble-removebg-preview.png">
   </div>
+  <div class="body">
 
-    <div class="body"  id="starter" >
-      <div class="welcome-body"  id="welcome-body">
-        <div class="welcome"> WELCOME TO </div>
-        <img src="./image/logo 1.png" width="140px" />
-        <p>CBT System</p>
-
-        <button class="btn btn-success" onclick="startQuiz('start')">Start Quiz</button>
+    <div class="container">
+      <div class="row">
+          <!-- Left Section: Set Quiz -->
+          <div class="col-md-6">
+              <div class="card set-quiz-card">
+                  <div class="card-body">
+                      <h5 class="card-title">Set Quiz</h5>
+                      <p class="card-text">Create and configure quizzes here. Tailor your quizzes to your needs with easy-to-use tools.</p>
+                      <a href="set_quiz.html" class="btn btn-success">Go to Set Quiz</a>
+                  </div>
+              </div>
+          </div>
+  
+          <!-- Right Section: Take Quiz -->
+          <div class="col-md-6">
+              <div class="card take-quiz-card">
+                  <div class="card-body">
+                      <h5 class="card-title">Take Quiz</h5>
+                      <p class="card-text">Take quizzes and test your knowledge. Challenge yourself with a wide range of topics and questions.</p>
+                      <button class="btn btn-primary">Go to Take Quiz <button>
+                  </div>
+              </div>
+          </div>
       </div>
+  </div>
+  
+  
+  </div>
 
-      <div class="welcome-body" hidden id="startExam">
+
+      <!-- <div class="welcome-body" hidden id="startExam">
         <div class="start text-center mb-4"
           ><p>To Start,</p> <p>Enter Your Name:</p></div
         >
@@ -63,10 +85,11 @@
           ><button class="btn btn-danger" onclick="startQuiz('exist')">EXIT</button>
           <button class="btn btn-success" onclick="startQuiz('exam')">START</button></div
         >
-      </div>
+      </div> -->
     </div>
 
-    <div class="quest" hidden id="instruction">
+    <!-- instructons for taking the quiz -->
+    <!-- <div class="quest" hidden id="instruction">
       <div class="quest-body ">
         <div class="profile text-center">
           <img src="./image/AVATAR.png" alt="" />
@@ -92,8 +115,9 @@
         <button class="btn btn-success"onclick="startQuiz('startExam')" >START</button></div >
     </div>
   </div>
-      </div>
-    <div class="quest" hidden id="main-page">
+      </div> -->
+    
+      <!-- <div class="quest" hidden id="main-page">
       <div class="quest-body ">
         <div class="profile text-center">
           <img src="./image/AVATAR.png" alt="" />
@@ -126,8 +150,10 @@
        
     </div>
   </div>
-      </div>
-    <div class="quest"  id="submit" hidden >
+      </div> -->
+   
+   
+      <!-- <div class="quest"  id="submit" hidden >
       <div class="quest-body ">
         <div class="profile text-center">
           <img src="./image/AVATAR.png" alt="" />
@@ -148,7 +174,7 @@
               </thead>
               <tbody id="result" class="text-center">
           
-                <!-- Your table data goes here -->
+              
           
               </tbody>
             </table>
@@ -158,7 +184,7 @@
        
     </div>
   </div>
-      </div>
+      </div> -->
     </div>
 
   
