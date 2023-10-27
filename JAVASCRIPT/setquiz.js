@@ -33,23 +33,38 @@ const db = getFirestore()
 
 let uid;
 let usercart 
+let isLoggedIn;
 
 function getLoginUser() {
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            uid = user.uid
-            const docRef = doc(db, "users", uid);
+    return new Promise((resolve) => {
+        onAuthStateChanged(auth, (user) => {
+            isLoggedIn = user;
+            if (user) {
+                uid = user.uid;
+                const docRef = doc(db, "users", uid);
     
-            getDoc(docRef).then((result) => {
-                usercart   = result.data();
-                welcome.textContent += usercart.username
-            })
-
-        }
-    })
+                getDoc(docRef).then((result) => {
+                    usercart = result.data();
+                    welcome.textContent += usercart.username;
+                    resolve(); // Resolve the promise when user data is fetched.
+                });
+            } else {
+                resolve(); // Resolve the promise if the user is not authenticated.
+            }
+        });
+    });
 }
-getLoginUser();
+
+getLoginUser().then(() => {
+    // page guard
+    if (isLoggedIn) {
+        // Allow access to the page
+    } else {
+        // Redirect to another page or display an error message
+        window.location.href = 'denied.html'; // Redirect to a denied access page
+    }
+});
+
 
 
 const form = document.getElementById('formData');
