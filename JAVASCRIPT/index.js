@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js";
 import {
   getAuth,
-  onAuthStateChanged
+  onAuthStateChanged,signOut,
 } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 import {
     getDoc,
@@ -33,19 +33,54 @@ const db = getFirestore()
 
 let uid;
 
-function getLoginUser() {
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            uid = user.uid
-            const docRef = doc(db, "users", uid);
-    
-            getDoc(docRef).then((result) => {
-                const usercart = result.data();
-                welcome.textContent += usercart.username
-            })
-
-        }
-    })
+// Function to update the user interface based on the user's login status
+function updateUI(user,username) {
+    const text = document.getElementById("usernamee");
+    const logoutButton = document.getElementById("logout");
+    if (user || username) {
+        // User is logged in
+        text.textContent = username; 
+        logoutButton.textContent = "Log Out";
+    } else {
+        // User is not logged in
+        text.textContent = "Please log in to access our service"; 
+        logoutButton.textContent = "Log In"; 
+    }
 }
+
+async function getLoginUser() {
+    let user = null;
+    let username = null;
+
+    user = await new Promise((resolve) => {
+        onAuthStateChanged(auth, (authUser) => {
+            resolve(authUser);
+        });
+    });
+
+    if (user) {
+        const uid = user.uid;
+        const docRef = doc(db, "users", uid);
+        const result = await getDoc(docRef);
+        const userdata = result.data();
+        username = userdata.username;
+    }
+
+    updateUI(user, username);
+}
+
 getLoginUser();
+
+
+
+const logout = document.getElementById('logout')
+
+logout.addEventListener('click', () => {
+    
+    signOut(auth)
+    .then((result) => {
+      window.location = "../HTML/login.html";
+    })
+    .catch((err) => console.log("unable to logout"));
+
+})
