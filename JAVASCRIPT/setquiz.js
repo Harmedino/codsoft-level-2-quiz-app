@@ -58,6 +58,9 @@ const addQuestionButton = document.getElementById('addQuestion');
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    // Reset error messages
+    clearErrorMessages();
+
     // Disable the "Add Question" button
     addQuestionButton.disabled = true;
 
@@ -77,10 +80,22 @@ form.addEventListener('submit', async (event) => {
         createdBy : usercart.username
     };
 
+    // Validate form fields
+    if (validateForm()) {
+        // If the form is valid, proceed with submission
+        submitForm(data);
+    }
+
+});
+
+// Function to submit form
+
+async function submitForm(params) {
+    
     try {
         const response = await fetch('https://quiz-app-197e0-default-rtdb.firebaseio.com/quizQuestions.json', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(params),
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -102,10 +117,66 @@ form.addEventListener('submit', async (event) => {
         // Re-enable the "Add Question" button in case of an error
         addQuestionButton.disabled = false;
     }
-});
+}
 
 
+let isValid = true;
 
+// Function to validate form fields
+function validateForm() {
+
+    // Validation for subject
+    const subject = form.quizSubject.value;
+    if (subject.trim() === '') {
+        isValid = false;
+        showError('quizSubject', 'Subject is required');
+    }
+
+
+ // Validation for question
+ const question = form.question.value;
+ if (question.trim() === '') {
+     isValid = false;
+     showError('question', 'Question is required');
+ }
+ 
+ // Validation for options
+ const options = ['option1', 'option2', 'option3', 'option4'];
+ options.forEach((option, index) => {
+     const value = form[option].value;
+      if (value.trim() === '') {
+          isValid = false;
+          showError(option, `Option ${index + 1} is required`);
+        }
+    });
+    
+    // Validation for correctOption
+    const correctOption = form.answer.value;
+    if (correctOption.trim() === '') {
+        isValid = false;
+        showError('answer', 'correct option is required');
+    }
+}
+// Function to show error messages
+function showError(inputName, errorMessage) {
+    const input = form[inputName];
+    input.classList.add('is-invalid');
+    const errorContainer = document.getElementById(inputName + 'Error');
+    errorContainer.textContent = errorMessage;
+}
+
+
+function clearErrorMessages() {
+    const invalidInputs = form.querySelectorAll('.is-invalid');
+    invalidInputs.forEach((input) => {
+        input.classList.remove('is-invalid');
+    });
+
+    const errorContainers = form.querySelectorAll('.error');
+    errorContainers.forEach((container) => {
+        container.textContent = '';
+    })
+}
 
 
 function showMessage(type, text) {
