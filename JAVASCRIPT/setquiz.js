@@ -42,8 +42,11 @@ function showLoadingSpinner() {
 function hideLoadingSpinner() {
     // Hide the loading spinner when the data is ready
     document.getElementById("loading-spinner").style.display = "none";
-    document.getElementById("container").style.display = "block"; 
+    
+    document.getElementById("user-section").style.display = "block";
 }
+
+
 
 let isLoggedIn;
 
@@ -112,7 +115,7 @@ form.addEventListener('submit', async (event) => {
         question: question,
         options: [option1, option2, option3, option4],
         cAnswer: answer,
-        createdBy : usercart.username
+        createdBy : userdata.username
     };
 
     // Validate form fields
