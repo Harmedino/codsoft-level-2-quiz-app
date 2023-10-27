@@ -44,8 +44,8 @@ function getLoginUser() {
                 const docRef = doc(db, "users", uid);
     
                 getDoc(docRef).then((result) => {
-                    usercart = result.data();
-                    welcome.textContent += usercart.username;
+                    userdata = result.data();
+                    welcome.textContent += userdata.username;
                     resolve(); // Resolve the promise when user data is fetched.
                 });
             } else {
@@ -61,7 +61,7 @@ getLoginUser().then(() => {
         // Allow access to the page
     } else {
         // Redirect to another page or display an error message
-        window.location.href = 'denied.html'; // Redirect to a denied access page
+        window.location.href = '../index.html'; // Redirect to a denied access page
     }
 });
 
