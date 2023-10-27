@@ -12,9 +12,17 @@
     <link rel="stylesheet" href="../CSS/setQuiz.css" />
   </head>
   <body>
-    <div id="messageContainer" class="message-container"></div>
+    <div id="loading-spinner">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+  
+      <div class="user-section" style="display: none;">
+        <div id="messageContainer" class="message-container"></div>
+  
 
-    <div class="container mt-5">
+    <div class="container mt-5" id="container" style="display: none;">
       <h1 class="mb-4">Quiz Creation</h1>
 
       <!-- Quiz Form -->
