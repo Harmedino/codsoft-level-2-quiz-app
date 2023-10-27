@@ -33,6 +33,18 @@ const db = getFirestore()
 
 let uid;
 let userdata
+// Function to show a loading spinner
+function showLoadingSpinner() {
+    document.getElementById("loading-spinner").style.display = "block";
+}
+
+// Function to hide the loading spinner
+function hideLoadingSpinner() {
+    // Hide the loading spinner when the data is ready
+    document.getElementById("loading-spinner").style.display = "none";
+    document.getElementById("container").style.display = "block"; 
+}
+
 let isLoggedIn;
 
 function getLoginUser() {
@@ -42,21 +54,26 @@ function getLoginUser() {
             if (user) {
                 uid = user.uid;
                 const docRef = doc(db, "users", uid);
-    
+
                 getDoc(docRef).then((result) => {
                     userdata = result.data();
                     welcome.textContent += userdata.username;
-                    resolve(); // Resolve the promise when user data is fetched.
+                    hideLoadingSpinner();
+                    resolve(); 
                 });
             } else {
+                hideLoadingSpinner(); // Hide the loading spinner when the user is not authenticated
                 resolve(); // Resolve the promise if the user is not authenticated.
             }
         });
     });
 }
 
+// Show the loading spinner when the page loads
+showLoadingSpinner();
+
 getLoginUser().then(() => {
-    // page guard
+    // Page guard
     if (isLoggedIn) {
         // Allow access to the page
     } else {
@@ -64,6 +81,9 @@ getLoginUser().then(() => {
         window.location.href = '../index.html'; // Redirect to a denied access page
     }
 });
+
+
+
 
 
 
