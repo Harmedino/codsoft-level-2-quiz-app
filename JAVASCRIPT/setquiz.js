@@ -32,7 +32,7 @@ const auth = getAuth();
 const db = getFirestore()
 
 let uid;
-let usercart 
+let userdata
 let isLoggedIn;
 
 function getLoginUser() {
