@@ -84,7 +84,9 @@ form.addEventListener('submit', async (event) => {
     if (validateForm()) {
         // If the form is valid, proceed with submission
         submitForm(data);
+        
     }
+
 
 });
 
@@ -116,7 +118,8 @@ async function submitForm(params) {
         console.error(error);
         // Re-enable the "Add Question" button in case of an error
         addQuestionButton.disabled = false;
-    }
+    } 
+    addQuestionButton.disabled = false;
 }
 
 
@@ -165,7 +168,7 @@ function showError(inputName, errorMessage) {
     errorContainer.textContent = errorMessage;
 }
 
-
+// function to clar error messages
 function clearErrorMessages() {
     const invalidInputs = form.querySelectorAll('.is-invalid');
     invalidInputs.forEach((input) => {
