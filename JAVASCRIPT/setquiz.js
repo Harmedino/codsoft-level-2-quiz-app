@@ -65,7 +65,6 @@ function getLoginUser() {
                     resolve(); 
                 });
             } else {
-                hideLoadingSpinner(); // Hide the loading spinner when the user is not authenticated
                 resolve(); // Resolve the promise if the user is not authenticated.
             }
         });
