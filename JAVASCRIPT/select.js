@@ -32,10 +32,48 @@ const auth = getAuth();
 const db = getFirestore()
 
 
-const response = await fetch('https://quiz-app-197e0-default-rtdb.firebaseio.com/quizQuestions.json', {
-    method: 'POST',
-    body: JSON.stringify(params),
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
+
+async function fetchAvailableQuestions() {
+    try {
+        const response = await fetch('https://quiz-app-197e0-default-rtdb.firebaseio.com/quizQuestions.json');
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        if (data) {
+            // Extract the subject data
+            const subjectData = Object.values(data)[0];
+            if (subjectData && Array.isArray(subjectData.options)) {
+                const subjects = subjectData.options;
+                updateSubjectList(subjects);
+            } else {
+                throw new Error('Invalid data format');
+            }
+        } else {
+            throw new Error('No data found');
+        }
+    } catch (error) {
+        console.error('Error fetching questions:', error);
+        // You can handle the error here, for example, by displaying an error message to the user.
+    }
+}
+
+function updateSubjectList(subjects) {
+    const subjectList = document.querySelector('.subject-list');
+    subjectList.innerHTML = '';
+
+    subjects.forEach((subject, index) => {
+        const listItem = document.createElement('li');
+        const anchor = document.createElement('a');
+        anchor.href = `#`;
+        anchor.textContent = `Option ${index + 1}: ${subject}`;
+        listItem.appendChild(anchor);
+        subjectList.appendChild(listItem);
+    });
+}
+
+fetchAvailableQuestions();
+
