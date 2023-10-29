@@ -1,3 +1,8 @@
+
+*{
+margin: 0;
+padding: 0;
+}
 body {
   background-color: #d2d2d2 !important;
   height: 100vh;
@@ -13,6 +18,7 @@ body {
   background-image: url("./image/BG.png");
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
 }
     .user-section {
         background-color: transparent;
